@@ -1,0 +1,8 @@
+source 'https://github.com/CocoaPods/Specs.git'
+target 'Fitness' do
+use_frameworks!
+  pod 'GoogleMaps'
+  pod 'GooglePlaces'
+  pod 'JTAppleCalendar', '~> 7.1.7'
+end
+
