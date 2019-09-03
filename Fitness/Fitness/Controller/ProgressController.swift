@@ -16,6 +16,7 @@ class ProgressController: UIViewController,UICollectionViewDataSource,UICollecti
     @IBOutlet weak var yearLb: UILabel!
     let dateCurrent = Date()
     var isDone = true
+    @IBOutlet weak var headerView: UIView!
     
     var dayInWeeks = ["Mon","Tue","Wed","Thu","Fri","Sat","Sun"]
     
@@ -40,6 +41,17 @@ class ProgressController: UIViewController,UICollectionViewDataSource,UICollecti
         calendarView.minimumLineSpacing = 0
         calendarView.scrollingMode = .stopAtEachCalendarFrame
         
+        setupHeaderTableView()
+    }
+    
+    fileprivate func setupHeaderTableView(){
+        
+        let headerTitle = UILabel()
+        headerView.addSubview(headerTitle)
+        headerTitle.frame = CGRect(x: 20, y: 5, width: headerView.frame.width - 10, height: headerView.frame.height - 10)
+        headerTitle.text = "Workout Time"
+        headerTitle.textColor = .black
+        headerTitle.font = UIFont.boldSystemFont(ofSize: 25)
     }
     
     @IBAction func previousAct(_ sender: Any) {
@@ -72,6 +84,7 @@ class ProgressController: UIViewController,UICollectionViewDataSource,UICollecti
         if Calendar.current.isDateInToday(cellState.date){
             cell.viewContainer.layer.cornerRadius = 17.0
             cell.viewContainer.backgroundColor = UIColor(red: 255/255, green: 141/255, blue: 0/255, alpha: 1)
+            isDone = false
         }
     }
     
@@ -116,7 +129,9 @@ extension ProgressController: JTAppleCalendarViewDelegate, JTAppleCalendarViewDa
         let cell = cell as! DayinMonthCollectionCell
         // setting các chi tiết muốn hiện lên MH
         handleCellColor(cell: cell, cellState: cellState)
-        handleCellCurrentDay(cell: cell, cellState: cellState)
+        if isDone{
+            handleCellCurrentDay(cell: cell, cellState: cellState)
+        }
     }
     
     func calendar(_ calendar: JTAppleCalendarView, cellForItemAt date: Date, cellState: CellState, indexPath: IndexPath) -> JTAppleCell {
@@ -131,4 +146,20 @@ extension ProgressController: JTAppleCalendarViewDelegate, JTAppleCalendarViewDa
         setupMonthLabel(date: visibleDates.monthDates.first!.date)
     }
     
+}
+
+extension ProgressController: UITableViewDelegate{
+    
+}
+
+extension ProgressController: UITableViewDataSource{
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 10
+    }
+
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        return UITableViewCell()
+    }
+
+
 }
